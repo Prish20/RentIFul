@@ -37,10 +37,7 @@ const DiscoverSection = () => {
                         Find your Dream Rental Property Today!
                     </p>
                     <p className="mt-2 text-gray-500 max-w-3xl mx-auto">
-                        Searching for your dream rental property has never been easier. With
-                        our user-friendly search feature, you can quickly find the perfect
-                        home that meets all your needs. Start your search today and discover
-                        your dream rental property!
+                        Finding your dream rental is now effortless! Our intuitive search tools help you quickly discover the perfect property tailored to your needs.
                     </p>
                 </motion.div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 xl:gap-16 text-center">
@@ -49,19 +46,19 @@ const DiscoverSection = () => {
                             imageSrc: "/landing-icon-wand.png",
                             title: "Search for Properties",
                             description:
-                                "Browse through our extensive collection of rental properties in your desired location.",
+                                "Explore a vast selection of rental properties perfectly suited to your preferred locations.",
                         },
                         {
                             imageSrc: "/landing-icon-calendar.png",
                             title: "Book Your Rental",
                             description:
-                                "Once you've found the perfect rental property, easily book it online with just a few clicks.",
+                                "Secure your ideal rental in moments with our simple online booking process.",
                         },
                         {
                             imageSrc: "/landing-icon-heart.png",
                             title: "Enjoy your New Home",
                             description:
-                                "Move into your new rental property and start enjoying your dream home.",
+                                "Settle into your new rental and start living your dream home lifestyle today!",
                         },
                     ].map((card, index) => (
                         <motion.div key={index} variants={itemVariants}>

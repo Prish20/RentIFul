@@ -52,9 +52,9 @@ const FeatureSection = () => {
                                 }
                                 description={
                                     [
-                                        "Discover the best rental options with user reviews and ratings.",
-                                        "Get access to user reviews and ratings for a better understanding of rental options.",
-                                        "Find trustworthy and verified rental listings to ensure a hassle-free experience.",
+                                        "Uncover top-tier rental options with trusted reviews and ratings. Gain confidence with insights from real tenants and homeowners.",
+                                        "Explore rental listings effortlessly with clear ratings and reviews to guide your decision.",
+                                        "Streamline your search with advanced filters and verified listings for a seamless, stress-free rental experience.",
                                     ][index]
                                 }
                                 linkText={["Explore", "Search", "Discover"][index]}

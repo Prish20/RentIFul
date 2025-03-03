@@ -24,14 +24,13 @@ const CallToActionSection = () => {
             >
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <div className="mb-6 md:mb-0 md:mr-10">
-                        <h2 className="text-2xl font-bold text-white">
+                        <h2 className="text-2xl font-etrabold text-white">
                             Find Your Dream Rental Property
                         </h2>
                     </div>
                     <div>
                         <p className="text-white mb-3">
-                            Discover a wide range of rental properties in your desired
-                            location.
+                            Unlock a world of rental options perfectly tailored to your desired locations.
                         </p>
                         <div className="flex justify-center md:justify-start gap-4">
                             <button

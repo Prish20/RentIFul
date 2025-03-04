@@ -38,7 +38,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <div style={{ paddingTop: `${NAVBAR_HEIGHT}px` }}>
                     <main className="flex">
                         <Sidebar userType={authuser.userRole.toLowerCase()} />
-                        <div className="flex-grow transition-all duration-300">
+                        <div className="flex-grow transition-all duration-1000">
                             {children}
                         </div>
                     </main>

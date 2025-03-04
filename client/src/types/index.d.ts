@@ -52,6 +52,14 @@ declare global {
     Townhouse = "Townhouse",
     Cottage = "Cottage",
   }
+    interface NavLink {
+        icon: React.ComponentType<{ className?: string }>;
+        label: string;
+        href: string;
+    }
+    interface AppSidebarProps {
+        userType: "manager" | "tenant";
+    }
 
   interface SidebarLinkProps {
     href: string;

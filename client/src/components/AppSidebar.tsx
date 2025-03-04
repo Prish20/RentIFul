@@ -1,96 +1,95 @@
 "use client";
 
-import { usePathname } from 'next/navigation'
-import React from 'react'
-import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from './ui/sidebar';
-import { Building, FileText, Heart, Home, Menu, Settings, X } from 'lucide-react';
-import { NAVBAR_HEIGHT } from '@/lib/constants';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { usePathname } from "next/navigation";
+import React from "react";
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    useSidebar,
+} from "./ui/sidebar";
+import {
+    PanelLeftClose,
+    PanelRightClose,
+} from "lucide-react";
+import { NAV_LINKS, NAVBAR_HEIGHT } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+
+// Sidebar Header Component
+const SidebarHeaderContent = ({
+    userType,
+    open,
+    toggleSidebar,
+}: AppSidebarProps & { open: boolean; toggleSidebar: () => void }) => (
+    <SidebarHeader className="bg-primary-700/20 rounded-tr-md transition-all duration-300 ease-in-out">
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <div
+                    className={cn(
+                        "flex min-h-[56px] w-full items-center pt-3 mb-3 transition-all duration-300 ease-in-out",
+                        open ? "px-6" : "justify-center"
+                    )}
+                >
+                    {open ? (
+                        <>
+                            <h1
+                                className={cn(
+                                    "text-xl font-bold text-gray-800 transition-all duration-200 ease-in-out",
+                                    open ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-5"
+                                )}
+                            >
+                                {userType === "manager" ? "Manager" : "Tenant"}
+                            </h1>
+                            <button
+                                className="ml-auto p-2 rounded-md hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+                                onClick={toggleSidebar}
+                                aria-label="Collapse sidebar"
+                            >
+                                <PanelLeftClose className="h-8 w-8 text-gray-600 hover:text-red-600 transition-transform duration-200 hover:scale-110" />
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            className="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+                            onClick={toggleSidebar}
+                            aria-label="Expand sidebar"
+                        >
+                            <PanelRightClose className="h-8 w-8 text-gray-600 hover:text-red-600 transition-transform duration-200 hover:scale-110" />
+                        </button>
+                    )}
+                </div>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    </SidebarHeader>
+);
 
 const AppSidebar = ({ userType }: AppSidebarProps) => {
     const pathname = usePathname();
     const { toggleSidebar, open } = useSidebar();
 
-    const navLinks = userType === "manager" ? [
-        {
-            icon: Building,
-            label: "Properties",
-            href: "/managers/properties"
-        },
-        {
-            icon: FileText,
-            label: "Applications",
-            href: "/managers/applications"
-        },
-        {
-            icon: Settings,
-            label: "Settings",
-            href: "/managers/settings"
-        }
-    ] : [
-        {
-            icon: Heart,
-            label: "Favorites",
-            href: "/tenants/favorites"
-        },
-        {
-            icon: FileText,
-            label: "Applications",
-            href: "/tenants/applications"
-        },
-        {
-            icon: Home,
-            label: "Residences",
-            href: "/tenants/residences"
-        },
-        {
-            icon: Settings,
-            label: "Settings",
-            href: "/tenants/settings"
-        }
-    ]
+    const navLinks = NAV_LINKS[userType];
+
     return (
         <Sidebar
             collapsible="icon"
-            className="fixed left-0 bg-white shadow-lg"
+            className="fixed left-0 bg-white shadow-xl transition-all duration-300 ease-in-out"
             style={{
                 top: `${NAVBAR_HEIGHT}px`,
                 height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
+                width: open ? "240px" : "80px",
             }}
         >
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <div
-                            className={cn(
-                                "flex min-h-[56px] w-full items-center pt-3 mb-3",
-                                open ? "justify-between px-6" : "justify-center"
-                            )}
-                        >
-                            {open ? (
-                                <>
-                                    <h1 className="text-xl font-bold text-gray-800">
-                                        {userType === "manager" ? "Manager View" : "Tenant View"}
-                                    </h1>
-                                    <button className="hover:bg-gray-100 p-2 rounded-md"
-                                        onClick={() => toggleSidebar()}
-                                    >
-                                        <X className="h-6 w-6 text-gray-600" />
-                                    </button>
-                                </>
-                            ) : (
-                                <button className="hover:bg-gray-100 p-2 rounded-md"
-                                    onClick={() => toggleSidebar()}
-                                >
-                                    <Menu className="h-6 w-6 text-gray-600" />
-                                </button>
-                            )}
-                        </div>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
-            <SidebarContent>
+            <SidebarHeaderContent
+                userType={userType}
+                open={open}
+                toggleSidebar={toggleSidebar}
+            />
+            <SidebarContent className="bg-primary-700/20 transition-all duration-300 ease-in-out">
                 <SidebarMenu>
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
@@ -98,32 +97,64 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
                             <SidebarMenuItem key={link.href}>
                                 <SidebarMenuButton
                                     asChild
+                                    size={open ? "lg" : "sm"}
                                     className={cn(
-                                        "flex items-center px-7 py-7",
-                                        isActive ? "bg-gray-100 text-gray-600 hover:bg-gray-100" :
-                                            open ? "text-blue-600" : "ml-[5px]"
+                                        "flex items-center transition-all duration-300 ease-in-out",
+                                        open
+                                            ? "px-3 py-3 mx-5 rounded-3xl"
+                                            : "px-3 py-3 mx-5 rounded-[48px_24px_24px_96px] place-items-center",
+                                        isActive
+                                            ? "bg-white text-gray-700"
+                                            : open
+                                                ? "text-white"
+                                                : "ml-3"
                                     )}
+                                    style={{
+                                        transitionProperty: "padding, margin, border-radius, place-items",
+                                        ...(open
+                                            ? {
+                                                padding: "10px",
+                                                margin: "20px",
+                                                borderRadius: "48px 48px 48px 48px",
+                                            }
+                                            : {
+                                                padding: "10px",
+                                                margin: "20px",
+                                                borderRadius: "48px 24px 24px 96px",
+                                                placeItems: "center",
+                                            }),
+                                    }}
                                 >
                                     <Link href={link.href} className="w-full" scroll={false}>
                                         <div className="flex items-center gap-3">
                                             <link.icon
-                                                className={`h-5 w-5 ${isActive ? "text-blue-600" : "text-gray-600"}`}
+                                                className={cn(
+                                                    "h-6 w-6",
+                                                    isActive
+                                                        ? "text-secondary-500"
+                                                        : "text-gray-600"
+                                                )}
                                             />
-                                            <span className={`font-medium ${isActive ? "text-blue-600" : "text-gray-600"
-                                                }`}>{link.label}</span>
+                                            <span
+                                                className={cn(
+                                                    "font-medium",
+                                                    isActive
+                                                        ? "text-black font-bold"
+                                                        : "text-gray-600 font-semibold"
+                                                )}
+                                            >
+                                                {link.label}
+                                            </span>
                                         </div>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
-                        )
-                    }
-                    )}
+                        );
+                    })}
                 </SidebarMenu>
-
             </SidebarContent>
-
         </Sidebar>
-    )
-}
+    );
+};
 
-export default AppSidebar
+export default AppSidebar;

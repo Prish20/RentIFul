@@ -172,6 +172,20 @@ body,
   }
 }
 
+/* globals.css */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.2s ease-in-out forwards;
+}
+
 /* Amplify UI Overrides */
 [data-amplify-authenticator] {
   --amplify-components-button-primary-background-color: var(--primary);

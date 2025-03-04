@@ -22,6 +22,9 @@ import {
   Castle,
   Trees,
   LucideIcon,
+  FileText,
+  Settings,
+  Heart,
 } from "lucide-react";
 
 export const formFields = {
@@ -65,6 +68,21 @@ export const formFields = {
 
     }
 }
+
+// Nav links configuration
+export const NAV_LINKS: Record<"manager" | "tenant", NavLink[]> = {
+    manager: [
+        { icon: Building, label: "Properties", href: "/managers/properties" },
+        { icon: FileText, label: "Applications", href: "/managers/applications" },
+        { icon: Settings, label: "Settings", href: "/managers/settings" },
+    ],
+    tenant: [
+        { icon: Heart, label: "Favorites", href: "/tenants/favorites" },
+        { icon: FileText, label: "Applications", href: "/tenants/applications" },
+        { icon: Home, label: "Residences", href: "/tenants/residences" },
+        { icon: Settings, label: "Settings", href: "/tenants/settings" },
+    ],
+};
 
 export enum AmenityEnum {
   WasherDryer = "WasherDryer",

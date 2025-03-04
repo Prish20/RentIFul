@@ -1,3 +1,4 @@
+import { createNewUserInDatabase } from "@/lib/utils";
 import { Manager, Tenant } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
@@ -18,16 +19,25 @@ export const api = createApi({
   tagTypes: [],
     endpoints: (build) => ({
         getAuthUser: build.query<User, void>({
-            queryFn: async (_, _queryApi, _extraOptions, _fetchWithBQ) => {
+            queryFn: async (_, _queryApi, _extraOptions, fetchWithBQ) => {
                 try {
                     const session = await fetchAuthSession();
                     const { idToken } = session.tokens ?? {};
                     const user = await getCurrentUser();
-                    const userRole = idToken?.payload["custom:role" as string]
+                    const userRole = (idToken?.payload["custom:role" as string] as string) ?? "tenant";
 
                     const endpoint = userRole === "manager" ? `/managers/${user.userId}` : `/tenants/${user.userId}`
 
-                    let userDetailsResponse = await _fetchWithBQ(endpoint);
+                    let userDetailsResponse = await fetchWithBQ(endpoint);
+
+                    if (userDetailsResponse.error && userDetailsResponse.error.status === 404) {
+                        userDetailsResponse = await createNewUserInDatabase(
+                            user,
+                            idToken,
+                            userRole,
+                            fetchWithBQ
+                        );
+                    }
                     return {
                         data: {
                             cognitoInfo: {
@@ -40,11 +50,12 @@ export const api = createApi({
                     }
                 } catch (error: any) {
                     return { error: error.message || "Could not fetch user data" };
-
                 }
             },
         })
   }),
 });
 
-export const {} = api;
+export const {
+    useGetAuthUserQuery,
+} = api;

@@ -127,7 +127,7 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
 
     const isAuthPage = pathname.match(/^\/(signin|signup)$/);
 
-    const isDashboardPage = pathname.startsWith('/manager') || pathname.startsWith('/tenant');
+    // const isDashboardPage = pathname.startsWith('/manager') || pathname.startsWith('/tenant');
 
     useEffect(() => {
         if (user && isAuthPage) {
@@ -135,10 +135,10 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
         }
     }, [user, isAuthPage, router]);
 
-    if (!isAuthPage && !isDashboardPage) {
+    if (!isAuthPage) {
         return <>{children}</>;
-
     }
+
 
     return (
         <main className="auth-container">

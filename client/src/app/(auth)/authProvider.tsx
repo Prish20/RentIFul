@@ -6,6 +6,8 @@ import { Amplify } from 'aws-amplify';
 import { Authenticator, Heading, Radio, RadioGroupField, useAuthenticator, View } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { formFields } from '@/lib/constants';
 
 
 Amplify.configure({
@@ -18,24 +20,24 @@ Amplify.configure({
 });
 
 const components = {
-    Header() {
-        return (
-            <View className="mt-4 mb-7">
-                <Heading level={3} className="!text-2xl !font-bold">
-                    RENT
-                    <span className="!text-secondary-500 !font-light hover:!text-primary-300">IFUL</span>
-                </Heading>
-                <p className="text-muted-foreground mt-2">
-                    <span className="font-bold">
-                        Welcome!<span>Please sign in to continue</span>
-                    </span>
-                </p>
-            </View>
-        )
-    },
     SignIn: {
+        Header() {
+            return (
+                <View className="mt-4 mb-7">
+                    <Heading level={3} className="!text-2xl !font-bold !cursor-pointer">
+                        RENT
+                        <span className="!text-secondary-500 !font-bold">IFUL</span>
+                    </Heading>
+                    <p className="text-muted-foreground mt-2">
+                        <span className="font-bold">
+                            Hello!<span> Let’s get started – please sign in.</span>
+                        </span>
+                    </p>
+                </View>
+            )
+        },
         Footer() {
-            const { toSignUp } = useAuthenticator();
+            const { toSignUp, toForgotPassword } = useAuthenticator();
             return (
                 <View className="mt-4 text-center">
                     <p className="text-muted-foreground">
@@ -48,12 +50,37 @@ const components = {
                             Sign up Here
                         </button>
                     </p>
+
+                    {/* Forgot Password Button */}
+                    <p className="text-muted-foreground mt-2">
+                        <button
+                            onClick={toForgotPassword}
+                            className="text-primary hover:underline bg-transparent border-none p-0"
+                        >
+                            Forgot Password?
+                        </button>
+                    </p>
                 </View>
             )
         },
     },
 
     SignUp: {
+        Header() {
+            return (
+                <View className="mt-4 mb-7">
+                    <Heading level={3} className="!text-2xl !font-bold !cursor-pointer">
+                        RENT
+                        <span className="!text-secondary-500 !font-bold">IFUL</span>
+                    </Heading>
+                    <p className="text-muted-foreground mt-2">
+                        <span className="font-bold">
+                            Welcome aboard!<span> Set up your account to explore.</span>
+                        </span>
+                    </p>
+                </View>
+            )
+        },
         FormFields() {
             const { validationErrors } = useAuthenticator();
             return (
@@ -93,48 +120,6 @@ const components = {
     }
 }
 
-const formFields = {
-    signIn: {
-        username: {
-            placeholder: "Enter your email",
-            label: "Email",
-            isRequired: true,
-        },
-        password: {
-            placeholder: "Enter your password",
-            label: "Password",
-            isRequired: true,
-        }
-    },
-    signUp: {
-        username: {
-            order: 1,
-            placeholder: "Choose a username",
-            label: "Username",
-            isRequired: true,
-        },
-        email: {
-            order: 2,
-            placeholder: "Enter your address",
-            label: "Email",
-            isRequired: true,
-        },
-        password: {
-            order: 3,
-            placeholder: "Create a password",
-            label: "Password",
-            isRequired: true,
-        },
-        confirm_password: {
-            order: 4,
-            placeholder: "Confirm your password",
-            label: "Confirm Password",
-            isRequired: true,
-        },
-
-    }
-}
-
 const Auth = ({ children }: { children: React.ReactNode }) => {
     const { user } = useAuthenticator((context) => [context.user]);
     const router = useRouter();
@@ -156,17 +141,32 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <div className="h-full">
-            <Authenticator
-                initialState={pathname.includes('signup') ? 'signUp' : 'signIn'}
-                components={components}
-                formFields={formFields}
-            >
-                {() => <>{
-                    children
-                }</>}
-            </Authenticator>
-        </div>
+        <main className="auth-container">
+
+            {/* Right side - Authenticator */}
+            <section className="md:w-1/2 w-full flex items-center justify-center p-6">
+                <Authenticator
+                    initialState={pathname.includes('signup') ? 'signUp' : 'signIn'}
+                    components={components}
+                    formFields={formFields}
+                >
+                    {() => <>{children}</>}
+                </Authenticator>
+            </section>
+
+            {/* Left side - Image */}
+            <section className="auth-illustration">
+                <Image
+                    src="/authimage.jpg"
+                    alt="auth"
+                    width={1000}
+                    height={1000}
+                    className="size-full object-cover"
+                />
+            </section>
+        </main>
+
+
     );
 }
 

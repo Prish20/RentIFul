@@ -86,6 +86,14 @@ body,
   @apply pt-8 pb-5 px-8;
 }
 
+.auth-illustration {
+    @apply sticky h-40 w-full sm:top-0 sm:h-screen sm:flex-1;
+}
+
+.auth-container {
+    @apply relative flex flex-col-reverse text-primary-100 sm:flex-row;
+}
+
 .mapboxgl-popup-content {
   @apply !bg-primary-700;
   @apply !rounded-lg;

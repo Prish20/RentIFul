@@ -1,5 +1,5 @@
 import express from 'express';
-import { createManager, getManager, updateManager } from '../controllers/manager.controllers';
+import { createManager, getManager, getManagerProperties, updateManager } from '../controllers/manager.controllers';
 
 
 
@@ -8,5 +8,6 @@ const router = express.Router();
 router.get('/:cognitoId', getManager);
 router.post('/', createManager);
 router.put('/:cognitoId', updateManager);
+router.get("/:cognitoId/properties", getManagerProperties);
 
 export default router;

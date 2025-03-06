@@ -23,12 +23,15 @@ app.use(cors());
 /* ROUTES */
 import tenantRoutes from "./routes/tenant.Routes";
 import managerRoutes from "./routes/manager.Routes"
+import propertyRoutes from "./routes/property.Routes";
+
 
 
 app.get("/", (req, res) => {
   res.send("This is home route");
 });
 
+app.use("/properties", propertyRoutes);
 app.use("/tenants", authMiddleware(["tenant"]), tenantRoutes);
 app.use("/managers", authMiddleware(["manager"]), managerRoutes);
 

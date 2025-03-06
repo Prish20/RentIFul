@@ -24,6 +24,8 @@ app.use(cors());
 import tenantRoutes from "./routes/tenant.Routes";
 import managerRoutes from "./routes/manager.Routes"
 import propertyRoutes from "./routes/property.Routes";
+import leaseRoutes from "./routes/lease.Routes";
+import applicationRoutes from "./routes/application.Routes";
 
 
 
@@ -34,6 +36,8 @@ app.get("/", (req, res) => {
 app.use("/properties", propertyRoutes);
 app.use("/tenants", authMiddleware(["tenant"]), tenantRoutes);
 app.use("/managers", authMiddleware(["manager"]), managerRoutes);
+app.use("/leases", leaseRoutes);
+app.use("/applications", applicationRoutes);
 
 
 /* SERVER */

@@ -24,7 +24,7 @@ const FiltersFull = () => {
     const router = useRouter();
     const pathname = usePathname();
     const filters = useAppSelector((state) => state.global.filters);
-    const [localFilters, setLocalFilters] = useState(initialState.filters);
+    const [localFilters, setLocalFilters] = useState<FiltersState>(initialState.filters);
     const isFiltersFullOpen = useAppSelector(
         (state) => state.global.isFiltersFullOpen
     );
@@ -55,13 +55,14 @@ const FiltersFull = () => {
     };
 
     const handleAmenityChange = (amenity: AmenityEnum) => {
-        setLocalFilters((prev) => ({
+        setLocalFilters((prev: FiltersState) => ({
             ...prev,
             amenities: prev.amenities.includes(amenity)
                 ? prev.amenities.filter((a) => a !== amenity)
                 : [...prev.amenities, amenity],
         }));
     };
+
 
     const handleLocationSearch = async () => {
         try {
